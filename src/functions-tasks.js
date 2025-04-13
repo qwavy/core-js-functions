@@ -95,14 +95,7 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom(/* ...args */) {
-  // if (!args) {
-  //   return null;
-  // }
-  // let result = 'y = ';
-  // if (args[2]) {
-  //   result += `${args[0]}*x^${args[0]} + ${args[1]}*x + ${args[2]}`;
-  // } else if (args[1]) {
-  // }
+  throw new Error('Not implemented');
 }
 
 /**
