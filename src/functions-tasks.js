@@ -94,16 +94,15 @@ function getPowerFunction(exponent) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom(...args) {
-  if (!args) {
-    return null;
-  }
-  let result = 'y = ';
-  if (args[2]) {
-    result += `${args[0]}*x^${args[0]} + ${args[1]}*x + ${args[2]}`;
-  } else if (args[1]) {
-    
-  }
+function getPolynom(/* ...args */) {
+  // if (!args) {
+  //   return null;
+  // }
+  // let result = 'y = ';
+  // if (args[2]) {
+  //   result += `${args[0]}*x^${args[0]} + ${args[1]}*x + ${args[2]}`;
+  // } else if (args[1]) {
+  // }
 }
 
 /**
@@ -121,9 +120,13 @@ function getPolynom(...args) {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-  const result = func();
+  const memo = {};
   return () => {
-    return result;
+    if (memo[func]) {
+      return memo[func];
+    }
+    memo[func] = func();
+    return memo[func];
   };
 }
 
@@ -170,10 +173,11 @@ function retry(/* func, attempts */) {
  *
  */
 function logger(func, logFunc) {
-  return () => {
-    const result = func();
-    logFunc(result);
-    logFunc(result);
+  return (...args) => {
+    const argumentts = JSON.stringify(args).slice(1, -1);
+    logFunc(`${func.name}(${argumentts}) starts`);
+    const result = func(...args);
+    logFunc(`${func.name}(${argumentts}) ends`);
     return result;
   };
 }
@@ -191,8 +195,10 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  return (...args2) => {
+    return fn(...args1, ...args2);
+  };
 }
 
 /**
